@@ -1,0 +1,86 @@
+.productCard {
+  display: grid;
+  /* Точно такие же колонки, как в HeaderList */
+  grid-template-columns: 
+    minmax(80px, 120px)   /* Фото */
+    1fr                  /* Название */
+    minmax(120px, 1fr)   /* Описание */
+    minmax(120px, 1fr)   /* Цена */
+    minmax(120px, 1fr)   /* Цена со скидкой */
+    minmax(120px, 1fr)   /* Артикул */
+    minmax(40px, 80px);  /* Удалить */
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--background);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  align-items: center;
+  justify-items: center;
+  box-shadow: var(--shadow-md);
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+
+.imageCell {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+}
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-danger);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: background 0.2s;
+  &:hover {
+    color: var(--color-transparent-one);
+  }
+}
+
+/* Адаптивность */
+@media (width <= 1150px) {
+  .hideOnTablet {
+    display: none;
+  }
+  .productCard {
+    grid-template-columns: 
+      minmax(80px, 120px)
+      1fr
+      minmax(120px, 1fr)
+      minmax(120px, 1fr)
+      minmax(40px, 80px);
+  }
+}
+
+@media (width <= 850px) {
+  .hideOnMobile {
+    display: none;
+  }
+  .productCard {
+    grid-template-columns: 
+      minmax(60px, 100px)
+      1fr
+      minmax(120px, 1fr)
+      minmax(40px, 80px);
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.75rem;
+  }
+  .imageCell {
+    width: 60px;
+    height: 60px;
+  }
+}

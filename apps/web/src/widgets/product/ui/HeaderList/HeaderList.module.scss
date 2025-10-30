@@ -1,0 +1,60 @@
+.header {
+  display: grid;
+  /* Убери фиксированные значения */
+  grid-template-columns: 
+    minmax(80px, 120px)   /* Фото */
+    1fr                  /* Название */
+    minmax(120px, 1fr)   /* Описание */
+    minmax(120px, 1fr)   /* Цена */
+    minmax(120px, 1fr)   /* Цена со скидкой */
+    minmax(120px, 1fr)   /* Артикул */
+    minmax(40px, 80px);  /* Удалить */
+
+  gap: var(--space-8);
+  padding: var(--space-xl);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  align-items: center;
+  justify-items: center;
+}
+
+@media (width <= 1150px) {
+  .header {
+    grid-template-columns: 
+      minmax(80px, 120px)
+      1fr
+      minmax(120px, 1fr)
+      minmax(120px, 1fr)
+      minmax(40px, 80px);
+  }
+  .hideOnTablet {
+    display: none;
+  }
+}
+
+@media (width <= 850px) {
+  .header {
+    grid-template-columns: 
+      minmax(60px, 100px)
+      1fr
+      minmax(120px, 1fr)
+      minmax(40px, 80px);
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.75rem;
+  }
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media (width <= 500px) {
+  .header {
+    font-size: 0.5rem;
+  }
+}

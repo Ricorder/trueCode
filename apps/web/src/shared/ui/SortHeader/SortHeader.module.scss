@@ -1,0 +1,74 @@
+.sortHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.sortButtons {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  button {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    color: var(--color-black);
+    &:hover {
+      background-color: var(--color-hover);
+    }
+    &.active {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      color: var(--color-white);
+    }
+  }
+}
+
+.arrowIcon {
+  width: 0.8em;
+  height: 0.8em;
+  display: block;
+}
+
+@media (width <= 768px) {
+  .sortHeader {
+    font-size: 0.75rem; // ↓ уменьшили шрифт → иконки тоже уменьшатся
+  }
+  .hideOnMobile {
+    display: none;
+  }
+  .arrowIcon {
+    width: 1em;
+    height: 1em;
+  }
+  .sortButtons button {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+@media (width <= 500px) {
+  .sortHeader {
+    font-size: 0.5rem; // ↓ уменьшили шрифт → иконки тоже уменьшатся
+  }
+  .hideOnMobile {
+    display: none;
+  }
+  .arrowIcon {
+    width: 0.8em;
+    height: 0.8em;
+  }
+  .sortButtons button {
+    width: 0.8em;
+    height: 0.8em;
+  }
+}

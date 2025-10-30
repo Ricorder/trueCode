@@ -1,0 +1,19 @@
+FROM node:22-slim
+
+RUN npm install -g pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+WORKDIR /app
+
+# Копируем всё
+COPY . .
+
+# Устанавливаем ВСЕ зависимости (включая dev)
+RUN pnpm install
+
+# Переходим в папку api
+WORKDIR /app/apps/api
+
+# Запускаем миграцию или сид
+CMD ["pnpm", "run", "migration"]

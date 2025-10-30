@@ -1,0 +1,112 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_API_URL=http://host.docker.internal:8000
+    networks:
+      - app_network
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    environment:
+      - API_PORT=8000
+      - DATABASE_URL=postgresql://admin:root@postgres:5432/test_db?schema=public
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=root
+      - DB_NAME=test_db
+      - S3_BUCKET=photos
+      - S3_URL=http://minio:9000
+      - S3_HOSTNAME=localhost
+      - S3_PORT=9000
+      - S3_SECRET_KEY=minioadmin
+      - S3_ACCESS_KEY=minioadmin
+      - S3_REGION=us-east-1
+    depends_on:
+      - postgres
+      - minio
+    networks:
+      - app_network
+  migrate:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.migrate
+    environment:
+      - DATABASE_URL=postgresql://admin:root@postgres:5432/test_db?schema=public
+    depends_on:
+      - postgres
+    command: pnpm run migration
+    networks:
+      - app_network
+  seed:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.migrate
+    environment:
+      - DATABASE_URL=postgresql://admin:root@postgres:5432/test_db?schema=public
+    depends_on:
+      - migrate
+    command: pnpm run seed
+    networks:
+      - app_network
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_API_CORS_DISABLE: "false"
+    volumes:
+      - minio_data:/data
+    entrypoint: ["/bin/sh"]
+    command: >
+      -c "
+        sleep 5 &&
+        minio server /data --console-address ':9001' &
+        export MC_HOST_myminio=http://minioadmin:minioadmin@minio:9000 &&
+        sleep 10 &&
+        mc mb myminio/photos || echo 'Bucket exists' &&
+        mc anonymous set public myminio/photos &&
+        echo '✅ Bucket is now public!' &&
+        wait
+      "
+    networks:
+      - app_network
+networks:
+  app_network:
+    external: true
+volumes:
+  postgres_data:
+  minio_data:

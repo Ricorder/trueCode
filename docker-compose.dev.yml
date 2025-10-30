@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_API_CORS_DISABLE: "false"
+    volumes:
+      - minio_data:/data
+    entrypoint: ["/bin/sh"]
+    command: >
+      -c "
+        sleep 5 &&
+        minio server /data --console-address ':9001' &
+        export MC_HOST_myminio=http://minioadmin:minioadmin@localhost:9000 &&
+        sleep 10 &&
+        mc mb myminio/photos-plans || echo 'Bucket exists' &&
+        mc mb myminio/dev-bucket || echo 'Bucket dev-bucket exists' &&
+        mc anonymous set public myminio/photos-plans &&
+        mc anonymous set public myminio/dev-bucket &&
+        echo '✅ Both buckets are now public!' &&
+        wait
+      "
+    networks:
+      - app_network
+networks:
+  app_network:
+    external: true
+volumes:
+  postgres_data:
+  minio_data:

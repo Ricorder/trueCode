@@ -1,0 +1,33 @@
+{
+  "name": "trueCode",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "pnpm --filter @repo/jest-config build && turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "start": "turbo run start",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "dependencies": {
+    "zod": "~4.1.12"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "~24.6.2",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.8"
+  },
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

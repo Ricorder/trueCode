@@ -1,0 +1,23 @@
+.block {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+  font-family: var(--font-family-sans);
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: inline-block;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--space-xl);
+}

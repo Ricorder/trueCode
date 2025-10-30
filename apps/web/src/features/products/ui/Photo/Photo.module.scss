@@ -1,0 +1,32 @@
+.photo {
+  margin-top: var(--space-md);
+  width: 100%;
+}
+
+.dropArea {
+  padding: var(--space-4);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 300px;
+  &:hover {
+    border-color: var(--color-text-secondary);
+    background-color: var(--color-hover);
+  }
+}
+
+.dragOver {
+  border-color: var(--color-primary);
+  background-color: var(--color-transparent-two);
+  color: var(--color-primary);
+}
+
+.hidden {
+  display: none;
+}
