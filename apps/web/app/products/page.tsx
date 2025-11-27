@@ -1,4 +1,4 @@
-import { Products } from '@/src/pagess/ui/Products/Products';
+import { Products } from '@/src/pagess/products/ui/Products/Products';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

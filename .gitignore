@@ -53,9 +53,7 @@ apps/**/.next/
 out/
 build
 dist            # NestJS / общие сборки
-.nuxt           # если добавишь Nuxt
 .cache/
-# Build outputs
 apps/**/dist/
 
 
